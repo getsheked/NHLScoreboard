@@ -28,13 +28,9 @@ SOFTWARE.
 
 #import libraries
 import json
-from logging import config
-from re import S
-from typing import Self
 import requests
 from datetime import datetime, timedelta, timezone, time, date
 from configparser import ConfigParser
-
 class  InfoGetterUtils:
     gameNumber=0
     storedDay=datetime.now(timezone.utc)
@@ -173,7 +169,6 @@ def config():
         season=config.get('time','season')
         DateFormat=config.get('time','SecondDigit')
         return abbrev, season, DateFormat, timeFormat, teamID
-setup()
 
 InfoGetterUtils= InfoGetterUtils(*config())
 print(InfoGetterUtils.getGameInformation())
