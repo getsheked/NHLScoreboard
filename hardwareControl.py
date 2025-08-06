@@ -1,5 +1,6 @@
 #code to push to hardware/display goes here 
-from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions, graphics
+from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+from RGBMatrixEmulator import graphics
 from NHLv2 import *
 from PIL import Image, ImageDraw, ImageFont
 
@@ -12,13 +13,27 @@ options.hardware_mapping = 'regular'  # If you have an Adafruit HAT: 'adafruit-h
 matrix = RGBMatrix(options = options)
 rows=32
 cols=64 
-DIMS=(cols, rows)
-image=Image.new('RGB',DIMS)
-draw=ImageDraw.Draw(image)
+class imageProcessing():
+    def __init__(self, rows, cols, border):
+        self.buffer=border
+        self.matrix=RGBMatrix(options=options)
+        self.border=border
+        self.dimens=(cols+(2*self.border), rows)
+        self.font_s = ImageFont.load('assets/fonts/pil/Tamzen5x9r.pil')
+        self.font_sb = ImageFont.load('assets/fonts/pil/Tamzen5x9b.pil')
+        self.font_m = ImageFont.load('assets/fonts/pil/Tamzen6x12r.pil')
+        self.font_mb = ImageFont.load('assets/fonts/pil/Tamzen6x12b.pil')
+        self.font_l = ImageFont.load('assets/fonts/pil/Tamzen8x15r.pil')
+        self.font_lb = ImageFont.load('assets/fonts/pil/Tamzen8x15b.pil')
+        self.leftOpen=21+self.buffer
+        self.colormode="RGB"
+        self.image=Image.new("RGB",self.dimens)
+        self.draw=ImageDraw.Draw(self.image)
+    def clear(self):
+        self.draw.rectangle((0, 0, self.dimens), fill=(0, 0, 0))
+    def test(self):
+        self.matrix.DrawText((self.leftOpen,0),"p",font=self.font_s, fill=(255, 255, 255))
 
-
-font = ImageFont.truetype("arial.ttf", 10)
-
-draw.rectangle(((0, 0),DIMS), fill=(125,0,0,0))
-draw.text((0, 10), "NHL Game Info", font=font, fill=(255, 255, 255))
-matrix.SetImage(image)
+x=imageProcessing(32,64,0)
+x.test()
+matrix.fill()
