@@ -11,13 +11,14 @@ How to Install Dependencies
 
 
 Setup: 
+       There is a wide variety of fonts for you to select, I set it to the one I perfer, but you can change it in the settings. 
      
       1. https://github.com/getsheked/NHL7Seg/blob/main/README.md
      
       2. 
     
       5. Setup teams in config file. 
-        Enter the team you want to track and show up on the scoreboard in the config file. 
+        Enter the team you want to track and show up on the scoreboard in the config file, it is default set to 
         Anaheim Ducks: ANA 
         Boston Bruins: BOS 
         Buffalo Sabers: BUF 

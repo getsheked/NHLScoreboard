@@ -1,6 +1,8 @@
 #code to push to hardware/display goes here 
 from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
-from RGBMatrixEmulator import graphics
+import RGBMatrixEmulator
+from RGBMatrixEmulator.emulation.options import RGBMatrixEmulatorConfig
+from RGBMatrixEmulator.graphics import *
 from NHLv2 import *
 from PIL import Image, ImageDraw, ImageFont
 
@@ -32,8 +34,11 @@ class imageProcessing():
     def clear(self):
         self.draw.rectangle((0, 0, self.dimens), fill=(0, 0, 0))
     def test(self):
-        self.matrix.DrawText((self.leftOpen,0),"p",font=self.font_s, fill=(255, 255, 255))
-
-x=imageProcessing(32,64,0)
-x.test()
-matrix.fill()
+        self.matrix.DrawText((self.leftOpen,0),"p",font=self.font_s, fill=(255, 255, 255)) 
+font=RGBMatrixEmulator.Font()
+j=font.LoadFont("assets\\fonts\\PressStart2P-Regular-5pt.bdf")
+dimens=(cols, rows)
+image=Image.new("RGB",dimens)
+draw=ImageDraw.Draw(image)
+draw.text((16, 5), "00:00", font=j, fill=(255, 255, 255))
+matrix.SetImage(image)
