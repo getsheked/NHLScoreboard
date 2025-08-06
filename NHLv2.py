@@ -141,8 +141,9 @@ class  InfoGetterUtils:
        return x+offset
 def setup():
         config=ConfigParser()
-        print("Do you need to change settings? (Y/N)")
-        if input()=="Y" or "y":
+        config.read('config.ini')
+        aws=input("Do you need to change settings? (Y/N)\n")
+        if aws.upper()=='Y':
           print("Enter 3 Letter Team Abbreveation")
           teamData=config["team"]
           x=input().upper()
@@ -161,7 +162,8 @@ def setup():
           teamData=config["team"]
           teamData["teamid"]=str(teamID)
           with open('config.ini', 'w') as conf:
-            config.write(conf)            
+            config.write(conf)    
+        else: print("Using Current Settings")
 def config():
         config=ConfigParser()
         config.read('config.ini')
@@ -171,6 +173,7 @@ def config():
         season=config.get('time','season')
         DateFormat=config.get('time','SecondDigit')
         return abbrev, season, DateFormat, timeFormat, teamID
+setup()
 
 InfoGetterUtils= InfoGetterUtils(*config())
 print(InfoGetterUtils.getGameInformation())
