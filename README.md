@@ -1,5 +1,6 @@
 First off, thanks for checking this out. I dont know whats really happening with this, but in time I hope it can turn into something cool. I will add the schematics for assosiated pi and ciruits when I finish them, which will happen sometime. No promises on when. As you can tell by the read me quality, This project is very early pre-alpha so beware of potental massive changes. If you are willing to test it out, here are the instuctions for setting it up. I would say you should use my code, but to be honest, you probably should not, there are better versions you can find. 
 
+if you choose out of us the api requests from weather api which has limited calls so it only updates every 1 minute, others are not limited
 REQUIRED DEPENDENCIES
 Requests 
 rpi-rgb-led-matrix by Hzeller
