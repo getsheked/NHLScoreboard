@@ -1,7 +1,5 @@
 #code to push to hardware/display goes here 
 import configparser
-from encodings.punycode import selective_find
-from mailbox import NoSuchMailboxError
 from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 import RGBMatrixEmulator
 from RGBMatrixEmulator.emulation.options import RGBMatrixEmulatorConfig
@@ -70,6 +68,7 @@ class deterimineDisplay():
             if self.DisplayClock()[-1:]=="M":
                 print("12 Hour Format")
                 self.draw.text((16, 16), self.DisplayClock()[-2:], font=self.font2, fontsize=20,fill=(255, 255, 255, 255), anchor="mb")
-            
+            weatherData=weatherStuff()
+
             #self.draw.text((32, 16), time, font=self.font1, font_size=20, fill=(255, 255, 255,255), anchor="mb")
             self.matrix.SetImage(self.image)
