@@ -1,11 +1,12 @@
 #code to push to hardware/display goes here 
-import configparser
+from configparser import ConfigParser
 from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 import RGBMatrixEmulator
 from RGBMatrixEmulator.emulation.options import RGBMatrixEmulatorConfig
 from RGBMatrixEmulator.graphics import *
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime, timedelta, timezone, time, date
+from weather import *
 
 options = RGBMatrixOptions()
 options.rows = 32
@@ -47,12 +48,12 @@ class deterimineDisplay():
             if int(self.time) == 12:
                 FormatCode = "%I:%M %p"
             else: FormatCode= "%H:%M"
-            return datetime.now().strftime(FormatCode)
+            return datetime.datetime.now().strftime(FormatCode)
         def DisplayDate(self):
             if self.date== 'M':
                DateCode="%a, %b %e"
             else: DateCode="%a,%e %b"
-            return datetime.now().strftime(DateCode)
+            return datetime.datetime.now().strftime(DateCode)
         def setFonts(self):
             config=configparser.ConfigParser()
             config.read("config.ini")
@@ -63,12 +64,24 @@ class deterimineDisplay():
             self.font1=font.LoadFont("assets\\fonts\\6x10.bdf")
             self.font2=font.LoadFont("assets\\fonts\\LEDBOARD-8pt.bdf")
         def screen0(self):
+            w=weatherStuff()
+            w.getWeather()
+            print(w.getWeather())
+            temp=w.getWeather()[0][0]
+            print(temp)
             self.draw.rectangle(((0,0),(self.dimens[0], self.dimens[1])), fill=(0,50, 0, 255))
             print(self.time)
             if self.DisplayClock()[-1:]=="M":
                 print("12 Hour Format")
-                self.draw.text((16, 16), self.DisplayClock()[-2:], font=self.font2, fontsize=20,fill=(255, 255, 255, 255), anchor="mb")
-            weatherData=weatherStuff()
-
-            #self.draw.text((32, 16), time, font=self.font1, font_size=20, fill=(255, 255, 255,255), anchor="mb")
+                image2=Image.new("RGB",(20,10), (0,50,0,255))
+                draw2=ImageDraw.Draw(image2)
+                draw2.text((0,0), self.DisplayClock()[-2:], font=self.font1, font_size=11, fill=(255,255,255,255))
+                rotato=image2.rotate(90, expand=-1)
+                self.draw.text((0,2), self.DisplayClock()[0:-2], font=self.font1, font_size=20, fill=(255,255,255,255), anchor="lt")
+                self.draw.text((64, 28), (str(int(temp))), font=self.font1, font_size=10,fill=(255, 255, 255, 255), anchor="rb")
+                self.image.paste(rotato, (53,-3))
+            
+                
+                
+            self.draw.text((0,28), datetime.datetime.strftime(datetime.datetime.now(),self.DisplayDate()), font=self.font1, font_size=9,fill=(255,255,255,255), anchor="lb")
             self.matrix.SetImage(self.image)

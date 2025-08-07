@@ -2,7 +2,7 @@
 
 #https://api.weather.gov/
 #wethaer api
-from configparser import configparser 
+import configparser
 import requests
 import json
 import weatherapi
@@ -62,15 +62,18 @@ class weatherStuff:
             current=c['temp_f'],c['condition'],c["feelslike_f"],c["wind_mph"],c["wind_dir"],c['gust_mph'],c["uv"],data['alerts']
             d1d=data["forecast"]['forecastday'][0]
             d2d=data['forecast']['forecastday'][1]
-            d1Data=d1d['date'],d1d['day']["maxtemp_f"],d1d['day']["mintemp_f"],d1d['day']["maxwind_mph"],d1d['day']['condition'],d1d['day']['uv']
-            d2Data=d2d['date'],d2d['day']["maxtemp_f"],d2d['day']["mintemp_f"],d2d['day']["maxwind_mph"],d2d['day']['condition'],d2d['day']['uv']
+            d1Data=d1d['date'],d1d['day']["maxtemp_f"],d1d['day']["mintemp_f"],d1d['day']["maxwind_mph"],d1d['day']['condition'],d1d['day']['uv'],"'F"
+            d2Data=d2d['date'],d2d['day']["maxtemp_f"],d2d['day']["mintemp_f"],d2d['day']["maxwind_mph"],d2d['day']['condition'],d2d['day']['uv'],"'F"
             return current,d1Data,d2Data
         else:
             c=data["current"]
             current=c['temp_c'],c['condition'],c["feelslike_c"],c["wind_kph"],c["wind_dir"],c['gust_kph'],c["uv"],data['alerts']
             d1d=data["forecast"]['forecastday'][0]
             d2d=data['forecast']['forecastday'][1]
-            d1Data=d1d['day']['date'],d1d['day']["maxtemp_c"],d1d['day']["mintemp_c"],d1d['day']["maxwind_kph"],d1d['day']['condition'],d1d['day']["uv"]
-            d2Data=d2d['day']['date'],d2d['day']["maxtemp_c"],d2d['day']["mintemp_c"],d2d['day']["maxwind_kph"],d2d['day']['condition'],d2d['day']["uv"]
+            d1Data=d1d['day']['date'],d1d['day']["maxtemp_c"],d1d['day']["mintemp_c"],d1d['day']["maxwind_kph"],d1d['day']['condition'],d1d['day']["uv"],"'C"
+            d2Data=d2d['day']['date'],d2d['day']["maxtemp_c"],d2d['day']["mintemp_c"],d2d['day']["maxwind_kph"],d2d['day']['condition'],d2d['day']["uv"],"'C"
+
             return current,d1Data,d2Data
 
+w=weatherStuff()
+print(w.getWeather()[0][0])

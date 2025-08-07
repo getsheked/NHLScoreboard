@@ -34,7 +34,7 @@ from configparser import ConfigParser
 from hardwareControl import *
 class  InfoGetterUtils:
     gameNumber=0
-    storedDay=datetime.now(timezone.utc)
+    storedDay=datetime.datetime.now(timezone.utc)
     gamedate=0
     def __init__(self,abbrev,season,dateFormat,timeFormat,teamID):
        self.abbrev=abbrev
@@ -49,14 +49,14 @@ class  InfoGetterUtils:
         y=requests.get("https://api-web.nhle.com/v1/gamecenter/"+str(x)+"/boxscore")
         return y.json()
     def InfoFinder(self):
-       testtime=datetime.now(timezone.utc).strftime("%Y-%m-%d")
+       testtime=datetime.datetime.now(timezone.utc).strftime("%Y-%m-%d")
        if testtime> InfoGetterUtils.storedDay.strftime("%Y-%m-%d"): 
             InfoGetterUtils.storedDay=testtime
             y=self.InfoGetter.retriveScheduleJSON()
             for i in range(InfoGetterUtils.gameNumber,88):
              x=y["games"][i]["startTimeUTC"]
-             x=datetime.strptime(x[:10],"%Y-%m-%d")
-             if datetime.now(datetime.utc).strftime("%Y-%m-%d")== x.strftime("%Y-%m-%d"):
+             x=datetime.datetime.strptime(x[:10],"%Y-%m-%d")
+             if datetime.datetime.now(datetime.datetime.utc).strftime("%Y-%m-%d")== x.strftime("%Y-%m-%d"):
                 InfoGetterUtils.gameNumber=i
                 gameID=y["games"][i]["id"]
                 return True, gameID
@@ -67,12 +67,12 @@ class  InfoGetterUtils:
             if self.timeFormat == 12:
                 FormatCode = "%I:%M %p"
             else: FormatCode= "%H:%M"
-            return datetime.now().strftime(FormatCode)
+            return datetime.datetime.now().strftime(FormatCode)
     def DisplayDate(self):
         if self.dateFormat== 'M':
            DateCode="%A, %B %e"
         else: DateCode="%A,%e %B"
-        return datetime.now().strftime(DateCode)
+        return datetime.datetime.now().strftime(DateCode)
     def getNextGameFormatCode(self):
         if self.timeFormat == 12:
                 FormatCode = "%I:%M %p"
@@ -132,8 +132,8 @@ class  InfoGetterUtils:
                     return gameON, gameState, period, favScore, favShots, otherID, otherScore, otherShots, gameTime, lastgame, nextgame, 
        return -1,-1,-1,-1,-1,-1,-1,-1,-1,lastgame, nextgame
     def timezoneAdjust(self, x):
-       x=datetime.strptime(x[:10]+" "+x[11:19],"%Y-%m-%d %H:%M:%S")
-       p=datetime.now().astimezone().strftime("%z")
+       x=datetime.datetime.strptime(x[:10]+" "+x[11:19],"%Y-%m-%d %H:%M:%S")
+       p=datetime.datetime.now().astimezone().strftime("%z")
        offset=timedelta(hours=int(p[0:3]), minutes=int(p[3:5]))
        return x+offset
 def setup():
