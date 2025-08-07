@@ -31,6 +31,7 @@ import json
 import requests
 from datetime import datetime, timedelta, timezone, time, date
 from configparser import ConfigParser
+from hardwareControl import *
 class  InfoGetterUtils:
     gameNumber=0
     storedDay=datetime.now(timezone.utc)
@@ -94,11 +95,11 @@ class  InfoGetterUtils:
        else: x=x["games"][0]
        if x["awayTeam"]["id"]==self.teamID:
           y=self.timezoneAdjust(x["startTimeUTC"])
-          nextgame= "Next Game: " + x["awayTeam"]["abbrev"] + " @ " + x["homeTeam"]["abbrev"] + " " + y.strftime(self.getNextGameFormatCode())
+          nextgame= "Next Game", x["awayTeam"]["abbrev"],"At",x["homeTeam"]["abbrev"], y.strftime(self.getNextGameFormatCode())
        else: 
           x["homeTeam"]["id"]==self.teamID
           y=self.timezoneAdjust(x["startTimeUTC"])
-          nextgame= "Next Game: " + x["homeTeam"]["abbrev"] + " Vs " + x["awayTeam"]["abbrev"] + " " + y.strftime(self.getNextGameFormatCode())
+          nextgame= "Next Game",x["homeTeam"]["abbrev"]," Vs ", x["awayTeam"]["abbrev"], y.strftime(self.getNextGameFormatCode())
        if self.InfoFinder()[0]==True:
            gameID=self.InfoFinder()[1]
            y=self.retriveScoreboardJSON(x)
@@ -129,7 +130,7 @@ class  InfoGetterUtils:
                     if gameState=="OFF":
                         gameON=False
                     return gameON, gameState, period, favScore, favShots, otherID, otherScore, otherShots, gameTime, lastgame, nextgame, 
-       return lastgame, nextgame
+       return -1,-1,-1,-1,-1,-1,-1,-1,-1,lastgame, nextgame
     def timezoneAdjust(self, x):
        x=datetime.strptime(x[:10]+" "+x[11:19],"%Y-%m-%d %H:%M:%S")
        p=datetime.now().astimezone().strftime("%z")
@@ -170,5 +171,9 @@ def config():
         DateFormat=config.get('time','SecondDigit')
         return abbrev, season, DateFormat, timeFormat, teamID
 
+
 InfoGetterUtils= InfoGetterUtils(*config())
-print(InfoGetterUtils.getGameInformation())
+
+hardwareControl=deterimineDisplay(*InfoGetterUtils.getGameInformation())
+hardwareControl.setFonts()
+hardwareControl.screen0()
