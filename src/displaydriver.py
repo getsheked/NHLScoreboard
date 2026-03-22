@@ -55,7 +55,6 @@ def displayMode2(x):
 x=infogetter.getGameIDs()
 for i in range(len(x)):
     if x[i]>0:
-        print(infogetter.processgameID(x[i]))
         y=infogetter.processgameID(x[i])
         while y[4][0]!= "OFF" and y[4][0]!= "FUT":
             y=infogetter.processgameID(x[i])
