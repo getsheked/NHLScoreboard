@@ -9,25 +9,6 @@ from configparser import ConfigParser
 from setup import teaminfo
 import infogetter
 
-options = RGBMatrixOptions()
-options.rows = 32
-options.cols= 64
-options.chain_length = 1
-options.parallel = 1
-options.hardware_mapping = 'adafruit-hat'  # If you have an Adafruit HAT: 'adafruit-hat'
-
-matrix = RGBMatrix(options = options)
-
-blue = graphics.Color(0, 0, 255)
-white=white = graphics.Color(255, 255, 255)
-
-font1= graphics.Font()
-font1.LoadFont("/home/nhlpi9/dev/nhl/src/graphicFont/bdf-fonts/5x7.bdf")
-font2= graphics.Font()
-font2.LoadFont("/home/nhlpi9/dev/nhl/src/graphicFont/bdf-fonts/6x9.bdf")
-font3= graphics.Font()
-font3.LoadFont("/home/nhlpi9/dev/nhl/src/graphicFont/bdf-fonts/spleen-12x24.bdf")
-
 #if x[0]==0:
     #time left
    # graphics.DrawText(matrix, font2, 18, 18, white, x[1][5])
@@ -39,34 +20,51 @@ font3.LoadFont("/home/nhlpi9/dev/nhl/src/graphicFont/bdf-fonts/spleen-12x24.bdf"
     #graphics.DrawText(matrix, font3, 4, 28, white,str(x[1][2]))
 
     #home name
-   # graphics.DrawText(matrix, font2, 3, 10, white,str(x[1][1]))
+   #graphics.DrawText(matrix, font2, 3, 10, white,str(x[1][1]))
     
     #away score
     #graphics.DrawText(matrix, font3, 50, 28, white,str(x[1][4]))
     
     #away name
    # graphics.DrawText(matrix, font2, 45, 10, white,str(x[1][3]))
-   
-#return displayMode,score1,team1abv,score2,team2abv,middleText,periodText
+
 def displayMode1(x):
-    print(x)
+    teaminfo.matrix.Clear()
+    graphics.DrawText(teaminfo.matrix, teaminfo.font1, 23, 15, teaminfo.white,str(x[1]))	
+    graphics.DrawText(teaminfo.matrix, teaminfo.font3, 5, 28, teaminfo.white,str(x[2]))
+    graphics.DrawText(teaminfo.matrix, teaminfo.font1, 5, 8, teaminfo.white,str(x[3]))
+    graphics.DrawText(teaminfo.matrix, teaminfo.font3, 50, 28, teaminfo.white,str(x[4]))
+    graphics.DrawText(teaminfo.matrix, teaminfo.font1, 50, 8, teaminfo.white,str(x[5]))
+    graphics.DrawText(teaminfo.matrix, teaminfo.font1, 24, 23, teaminfo.white,str(x[6]))
+    graphics.DrawText(teaminfo.matrix, teaminfo.font1, 30, 30, teaminfo.white,str(x[7]))
+    time.sleep(3)
 def displayMode2(x):
-   print(x)
+    print(x)
+    teaminfo.matrix.Clear
+    graphics.DrawText(teaminfo.matrix, teaminfo.font1, 30, 8, teaminfo.white,str(x[0][1]))	
+    graphics.DrawText(teaminfo.matrix, teaminfo.font2, 8, 8, teaminfo.white,str(x[2][0]))
+    graphics.DrawText(teaminfo.matrix, teaminfo.font2, 43, 8, teaminfo.white,str(x[3][0]))
+    graphics.DrawText(teaminfo.matrix, teaminfo.font2, 5, 18, teaminfo.white,str(x[1][0]))
+    graphics.DrawText(teaminfo.matrix, teaminfo.font2, 20, 28, teaminfo.white,str(x[1][1]))
+    time.sleep(3)
+def clock():
+    if teaminfo.timeformat==5:
+        print("clock")
+    
 x=infogetter.getGameIDs()
 for i in range(len(x)):
     if x[i]>0:
         y=infogetter.processgameID(x[i])
         while y[4][0]!= "OFF" and y[4][0]!= "FUT":
             y=infogetter.processgameID(x[i])
-            infogetter.displayProcessing(y)
-            displayMode1(infogetter.displayProcessing(y))
+            displayMode0(infogetter.displayProcessing(y))
         if y[4][0]== "OFF":
             y=infogetter.processgameID(x[i])
-            infogetter.displayProcessing(y)
             displayMode1(infogetter.displayProcessing(y))
-        elif y[4][0]=="FUT":
+            i=i+1
+        if y[4][0]=="FUT":
             y=infogetter.processgameID(x[i])
-            infogetter.displayProcessing(y)
-            displayMode2(infogetter.displayProcessing(y))
-                
+            displayMode2(infogetter.processgameID(x[i]))
+            i=i+1
+        
         

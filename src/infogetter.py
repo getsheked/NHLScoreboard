@@ -48,15 +48,18 @@ def processgameID(x):
     period=-1
     inter=-1
     time=-1
+    at=-1
     
     data=scoreboardCall(x)
     gameType=data['gameType']
     timeInfo=timeProcess(data['startTimeUTC'])
     gameState=data['gameState']
-    
-    if data['homeTeam']==favAbv:
+    if data['homeTeam']['abbrev']==favAbv:
         homeAway="home"
-    else: homeAway="away"
+        at="vs"
+    else:
+        homeAway="away"
+        at="at"
     if homeAway=="home":
         otherAbv=data['awayTeam']['abbrev']
         if data['gameState']!='FUT':
@@ -79,13 +82,15 @@ def processgameID(x):
         else:
             favScore=-1
             otherScore=-1
-    return ((gameType,homeAway),timeInfo,(favAbv,favScore),(otherAbv,otherScore),(gameState,period,inter,time))
+    return ((gameType,at),timeInfo,(favAbv,favScore),(otherAbv,otherScore),(gameState,period,inter,time))
 def displayProcessing(x):
+    print(x)
     score1=x[2][1]
     displayMode=-1
     score2=x[3][1]
     middleText=-1
     periodText=-1
+    date=x[1][0]
     team1abv=x[2][0]
     team2abv=x[3][0]
     gameState=x[4][0]
@@ -127,4 +132,4 @@ def displayProcessing(x):
         displayMode==2
         score1=x[1][0]
         score2=x[1][1]    
-    return displayMode,score1,team1abv,score2,team2abv,middleText,periodText
+    return displayMode,date,score1,team1abv,score2,team2abv,middleText,periodText
