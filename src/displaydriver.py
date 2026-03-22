@@ -38,9 +38,10 @@ def displayMode1(x):
     graphics.DrawText(teaminfo.matrix, teaminfo.font1, 24, 23, teaminfo.white,str(x[6]))
     graphics.DrawText(teaminfo.matrix, teaminfo.font1, 30, 30, teaminfo.white,str(x[7]))
     time.sleep(3)
+    clock()
 def displayMode2(x):
     print(x)
-    teaminfo.matrix.Clear
+    teaminfo.matrix.Clear()
     graphics.DrawText(teaminfo.matrix, teaminfo.font1, 30, 8, teaminfo.white,str(x[0][1]))	
     graphics.DrawText(teaminfo.matrix, teaminfo.font2, 8, 8, teaminfo.white,str(x[2][0]))
     graphics.DrawText(teaminfo.matrix, teaminfo.font2, 43, 8, teaminfo.white,str(x[3][0]))
@@ -48,23 +49,36 @@ def displayMode2(x):
     graphics.DrawText(teaminfo.matrix, teaminfo.font2, 20, 28, teaminfo.white,str(x[1][1]))
     time.sleep(3)
 def clock():
-    if teaminfo.timeformat==5:
-        print("clock")
-    
-x=infogetter.getGameIDs()
-for i in range(len(x)):
-    if x[i]>0:
-        y=infogetter.processgameID(x[i])
-        while y[4][0]!= "OFF" and y[4][0]!= "FUT":
+    for i in range(120):
+        teaminfo.matrix.Clear()
+        now=datetime.now()
+        if teaminfo.dateFormat=='D':
+            date=now.strftime("%B %d")
+        else: date=now.strftime("%d %B")
+        if teaminfo.timeFormat==24:
+            timef=now.strftime("%H:%M")
+            graphics.DrawText(teaminfo.matrix,teaminfo.font3,3,20,teaminfo.white,timef)
+        else:
+            timef=now.strftime("%I:%M")
+            graphics.DrawText(teaminfo.matrix,teaminfo.font3,3,20,teaminfo.white,timef)
+            graphics.DrawText(teaminfo.matrix,teaminfo.font2,50,31,teaminfo.white,now.strftime("%p"))
+        graphics.DrawText(teaminfo.matrix,teaminfo.font5,2,31,teaminfo.white,date)
+        time.sleep(0.5)
+while 1<2:
+    x=infogetter.getGameIDs()
+    for i in range(len(x)):
+        if x[i]>0:
             y=infogetter.processgameID(x[i])
-            displayMode0(infogetter.displayProcessing(y))
-        if y[4][0]== "OFF":
-            y=infogetter.processgameID(x[i])
-            displayMode1(infogetter.displayProcessing(y))
-            i=i+1
-        if y[4][0]=="FUT":
-            y=infogetter.processgameID(x[i])
-            displayMode2(infogetter.processgameID(x[i]))
-            i=i+1
-        
+            while y[4][0]!= "OFF" and y[4][0]!= "FUT":
+                y=infogetter.processgameID(x[i])
+                displayMode0(infogetter.displayProcessing(y))
+            if y[4][0]== "OFF":
+                y=infogetter.processgameID(x[i])
+                displayMode1(infogetter.displayProcessing(y))
+                i=i+1
+            if y[4][0]=="FUT":
+                y=infogetter.processgameID(x[i])
+                displayMode2(infogetter.processgameID(x[i]))
+                i=i+1
+            
         

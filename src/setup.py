@@ -14,6 +14,7 @@ class teaminfo:
     teamID=int(config.get('team','teamID'))
     teamAbv=config.get('team', 'teamabv')
     timeFormat=int(config.get('time','24hr'))
+    dateFormat=config.get('time','seconddigit')
     offset=datetime.now().astimezone()
     x=datetime.strftime(offset,"%z")
     z=x[2:3]
@@ -41,6 +42,9 @@ class teaminfo:
     font2.LoadFont("/home/nhlpi9/dev/nhl/src/graphicFont/bdf-fonts/6x9.bdf")
     font3= graphics.Font()
     font3.LoadFont("/home/nhlpi9/dev/nhl/src/graphicFont/bdf-fonts/spleen-12x24.bdf")
+    font5=graphics.Font()
+    font5.LoadFont("/home/nhlpi9/dev/nhl/src/graphicFont/bdf-fonts/5x7.bdf")
+
     for i in range(len(data['games'])):
             y=data['games'][i]['id']
             x=data['games'][i]['gameDate']
