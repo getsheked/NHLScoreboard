@@ -1,5 +1,5 @@
 # NHLScoreboard
-Hi, I doubt anyone is reading this but if you are, welcome and prepare to see something I have taken way to long to create, and it is not even any good, but if you know what you are doing, you could probably make something cool with this as insperation. But if you wanted one that works well, their are better examples that you can find on GitHub. For my mediocre display, follow the installation instructions. Be warned their are going to be lots of bugs and inefficent code, and other general issues. For a second time, you have been warned.
+Hi, I doubt anyone is reading this but if you are, welcome and prepare to see something I have taken way to long to create, and it is not even any good, but if you know what you are doing, you could probably make something cool with this as insperation. But if you wanted one that works well, their are better examples that you can find on GitHub. For my mediocre display, follow the installation instructions. Be warned their are going to be lots of bugs and inefficent code, and other general issues. For a second time, you have been warned. If you notice anything or have a sugesstion for a new feature, put in a issue, and I might be able to fix it, but at the same time, I am not good at python so no promises. 
 
 Installation Instructions
 
